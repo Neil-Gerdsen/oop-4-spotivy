@@ -4,12 +4,34 @@ using System.Text;
 
 namespace oop4.classes
 {
-    internal class Songcollection
+    public class SongCollection
     {
         public string Title { get; set; }
 
-        static List<iPlayble> playbles { get; set; }
+        private List<IPlayable> playables { get; set; }
 
-        public
+        public SongCollection(string title)
+        {
+            Title = title;
+            playables = new List<IPlayable>();
+
+        }
+
+        public override string ToString()
+        {
+            return $"{Title} - {string.Join(", ", ShowPlayables)}";
+        }
+
+        public List<IPlayable> ShowPlayables()
+        {
+
+            return playables;
+        }
+
+        public void Add(IPlayable playable)
+        {
+            playables.Add(playable); // song toevoegen
+        }
+
     }
 }
