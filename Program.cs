@@ -14,7 +14,17 @@ collectie.Add(song1);
 collectie.Add(song2);
 
 Client client = new Client(new List<Song> { song1, song2 }, collectie);
-client.HuidigeCollectie = collectie;  
+client.HuidigeCollectie = collectie;
+
+//test om te zien of favorieten werkt.
+client.AddToFavorieten(song1);
+client.AddToFavorieten(song2);
+
+client.ShowFavorieten();
+
+client.RemoveFromFavorieten(song1);
+
+client.ShowFavorieten();
 
 client.Play();   
 //client.NextSong();

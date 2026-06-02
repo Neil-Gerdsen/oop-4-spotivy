@@ -47,5 +47,10 @@ namespace oop4.classes
             playables.Add(playable); // song toevoegen
         }
 
+        public void Remove(IPlayable playable)
+        {
+            playables.Remove(playable); // song verwijderen
+        }
+
     }
 }

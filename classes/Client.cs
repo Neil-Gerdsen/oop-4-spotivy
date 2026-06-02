@@ -13,8 +13,7 @@ namespace oop4.classes
             public bool Shuffle { get; set; }
             public bool Repeat { get; set; }
             public SongCollection HuidigeCollectie { get; set; }
-            
-    
+            public SongCollection Favorieten { get; set; }
         //private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
         //private List<Song> AllSongs { get; set; }
@@ -31,8 +30,31 @@ namespace oop4.classes
         public Client(List<Song> songs, SongCollection collectie)
         {
             HuidigeCollectie = collectie;
+            Favorieten = new SongCollection("Favorieten");
             Playing = false;
             CurrentTime = 0;
+        }
+
+        public void AddToFavorieten(IPlayable playable)
+        {
+            Favorieten.Add(playable);
+            Console.WriteLine($"{playable} is toegevoegd aan favorieten.");
+        }
+
+        public void RemoveFromFavorieten(IPlayable playable)
+        {
+            Favorieten.Remove(playable);
+            Console.WriteLine($"{playable} is verwijderd uit favorieten.");
+        }
+
+        public void ShowFavorieten()
+        {
+            Console.WriteLine("Favorieten:");
+
+            foreach (IPlayable playable in Favorieten.ShowPlayables())
+            {
+                Console.WriteLine(playable);
+            }
         }
 
         public void Play()
