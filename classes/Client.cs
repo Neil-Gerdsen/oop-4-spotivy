@@ -13,6 +13,8 @@ namespace oop4.classes
             public bool Shuffle { get; set; }
             public bool Repeat { get; set; }
             public SongCollection HuidigeCollectie { get; set; }
+            
+    
         //private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
         //private List<Song> AllSongs { get; set; }
@@ -44,8 +46,17 @@ namespace oop4.classes
             {
                 CurrentlyPlaying.Play();
                 Playing = true;
-
                 Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
+
+                for (CurrentTime = 0; CurrentTime <= CurrentlyPlaying.Length; CurrentTime++)
+                {
+                    // Simuleer het afspelen van het nummer
+                    System.Threading.Thread.Sleep(1000); // Wacht 1 seconde per tijdseenheid
+                    Console.WriteLine($"{CurrentTime}");
+
+                }
+                //Playing = false;
+                NextSong();
             }
             else
             {
@@ -72,11 +83,10 @@ namespace oop4.classes
         {
             if (CurrentlyPlaying != null)
             {
-                // haal de lijst op van wat er speelt
-                SongCollection collectie = (SongCollection)CurrentlyPlaying;
-                collectie.Next();
-                CurrentlyPlaying = collectie.Huidig();
-                CurrentlyPlaying.Play();
+                HuidigeCollectie.Next();
+                CurrentlyPlaying = HuidigeCollectie.Huidig();
+
+                Play(); // Client.Play opnieuw starten
             }
         }
     }
