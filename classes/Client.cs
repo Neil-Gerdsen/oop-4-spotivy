@@ -35,14 +35,31 @@ namespace oop4.classes
 
         public void Play()
         {
-            CurrentlyPlaying.Play();  
-            Playing = true;
+            if (CurrentlyPlaying == null && HuidigeCollectie != null)
+            {
+                CurrentlyPlaying = HuidigeCollectie.Huidig();
+            }
+
+            if (CurrentlyPlaying != null)
+            {
+                CurrentlyPlaying.Play();
+                Playing = true;
+
+                Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
+            }
+            else
+            {
+                Console.WriteLine("Geen nummer beschikbaar.");
+            }
         }
-      
+
         public void Pause()
         {
-            CurrentlyPlaying.Pause();
-            Playing = false;
+            if (CurrentlyPlaying != null)
+            {
+                CurrentlyPlaying.Pause();
+                Playing = false;
+            }
         }
 
         public void Stop()
@@ -53,11 +70,14 @@ namespace oop4.classes
         }
         public void NextSong()
         {
-            // haal de lijst op van wat er speelt
-            SongCollection collectie = (SongCollection)CurrentlyPlaying;
-            collectie.Next();
-            CurrentlyPlaying = collectie.Huidig();
-            CurrentlyPlaying.Play();
+            if (CurrentlyPlaying != null)
+            {
+                // haal de lijst op van wat er speelt
+                SongCollection collectie = (SongCollection)CurrentlyPlaying;
+                collectie.Next();
+                CurrentlyPlaying = collectie.Huidig();
+                CurrentlyPlaying.Play();
+            }
         }
     }
 }

@@ -17,7 +17,8 @@ Client client = new Client(new List<Song> { song1, song2 }, collectie);
 client.HuidigeCollectie = collectie;  
 
 client.Play();   
-client.NextSong();
+//client.NextSong();
+Console.WriteLine("test");
 
 // 4. Songs ophalen en tonen
 List<IPlayable> lijst = collectie.ShowPlayables();
