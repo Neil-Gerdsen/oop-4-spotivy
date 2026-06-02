@@ -51,7 +51,7 @@ namespace oop4.classes
         //}
         public override string ToString()
             {
-                return $"{Title} - {string.Join(", ", Title)}";
+                return $"{Title} - {SongGenre}";
             }
     }
     }
