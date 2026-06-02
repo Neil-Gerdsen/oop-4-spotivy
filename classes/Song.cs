@@ -39,17 +39,17 @@ namespace oop4.classes
                 SongGenre = genre;
             }
 
-            public void Play() { }
-            public void Pause() { }
-            public void Next() { }
-            public void Stop() { }
-            public int Length => Duur;
+        public void Play() { Console.WriteLine($"{Title} speelt af"); }
+        public void Pause() { Console.WriteLine($"{Title} gepauzeerd"); }
+        public void Next() { Console.WriteLine("Volgende nummer"); }
+        public void Stop() { Console.WriteLine($"{Title} gestopt"); }
+        public int Length => Duur;
 
-            //public override string ToString()
-            //{
-            //    return $"{Title} - {string.Join(", ", Artists)}";
-            //}
-            public override string ToString()
+        //public override string ToString()
+        //{
+        //    return $"{Title} - {string.Join(", ", Artists)}";
+        //}
+        public override string ToString()
             {
                 return $"{Title} - {string.Join(", ", Title)}";
             }

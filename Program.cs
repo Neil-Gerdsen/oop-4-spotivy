@@ -1,4 +1,5 @@
 ﻿// 1. Songs aanmaken
+using oop4;
 using oop4.classes;
 
 
@@ -12,7 +13,11 @@ SongCollection collectie = new SongCollection("Mijn lijst");
 collectie.Add(song1);
 collectie.Add(song2);
 
+Client client = new Client(new List<Song> { song1, song2 }, collectie);
+client.HuidigeCollectie = collectie;  
 
+client.Play();   
+client.NextSong();
 
 // 4. Songs ophalen en tonen
 List<IPlayable> lijst = collectie.ShowPlayables();

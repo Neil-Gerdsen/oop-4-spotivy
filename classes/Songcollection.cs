@@ -9,6 +9,8 @@ namespace oop4.classes
         public string Title { get; set; }
 
         private List<IPlayable> playables { get; set; }
+        private int huidigIndex = 0;
+
 
         public SongCollection(string title)
         {
@@ -17,6 +19,18 @@ namespace oop4.classes
 
         }
 
+        public IPlayable Huidig()
+        {
+            return playables[huidigIndex];
+        }
+
+        public void Next()
+        {
+            if (huidigIndex < playables.Count - 1)
+                huidigIndex++;
+            else
+                huidigIndex = 0;
+        }
         public override string ToString()
         {
             return $"{Title} - {string.Join(", ", ShowPlayables)}";
