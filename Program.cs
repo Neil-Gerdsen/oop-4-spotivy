@@ -3,8 +3,8 @@ using oop4;
 using oop4.classes;
 
 
-Song song1 = new Song("Blinding Lights", 5, Genres.Pop);
-Song song2 = new Song("Starboy", 5, Genres.Pop);
+Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 5, Genres.Pop); 
+Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 5, Genres.Pop);
 
 // 2. SongCollection aanmaken
 SongCollection collectie = new SongCollection("Mijn lijst");

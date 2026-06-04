@@ -8,6 +8,7 @@ namespace oop4.classes
     {
         public string Title { get; set; }
 
+
         private List<IPlayable> playables { get; set; }
         private int huidigIndex = 0;
 
