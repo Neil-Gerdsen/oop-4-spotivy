@@ -25,8 +25,9 @@ client.ShowFavorieten();
 client.RemoveFromFavorieten(song1);
 
 client.ShowFavorieten();
+int keuze = int.Parse(Console.ReadLine());
 
-client.Play();   
+   
 //client.NextSong();
 Console.WriteLine("test");
 
@@ -37,3 +38,5 @@ foreach (IPlayable p in lijst)
 {
     Console.WriteLine(p);  // roept ToString() aan
 }
+client.CurrentlyPlaying = (Song)lijst[keuze - 1];
+client.Play();
