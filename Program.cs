@@ -38,7 +38,7 @@ while (running)
 
                 for (int i = 0; i < songs.Count; i++)
                 {
-                    Console.WriteLine($"{i}. {songs[i]}");
+                    Console.WriteLine($"{i + 1}. {songs[i]}");
                 }
                 break;
             }
@@ -50,21 +50,47 @@ while (running)
 
                 for (int i = 0; i < alleSongs.Count; i++)
                 {
-                    Console.WriteLine($"{i}. {alleSongs[i]}");
+                    Console.WriteLine($"{i + 1}. {alleSongs[i]}");
                 }
 
-                Console.Write("Welke song wil je toevoegen? ");
-                int addIndex = int.Parse(Console.ReadLine());
+                Console.Write("\nWelke song wil je toevoegen? ");
+                string input = Console.ReadLine();
 
-                client.AddToFavorieten(alleSongs[addIndex]);
-                break;
+                if (!int.TryParse(input, out int addIndex))
+                {
+                    Console.WriteLine("Voer een nummer in.");
+                    break;
+                }
+
+                addIndex--;
+
+                if (addIndex < 0 || addIndex >= alleSongs.Count)
+                {
+                    Console.Write("Niet beschickbaar");
+                    break;
+                }
+                else
+                {
+                    client.AddToFavorieten(alleSongs[addIndex]);
+                    break;
+                }
             }
 
 
         case "3":
             {
-                client.ShowFavorieten();
-                break;
+                List<IPlayable> favorieten = client.Favorieten.ShowPlayables();
+                if (favorieten.Count > 0)
+                {
+                    client.ShowFavorieten();
+                    break;
+                }
+                else
+                {
+                    Console.Write("Je hebt geen favorieten. ");
+                    break;
+                }
+
             }
 
 
@@ -74,37 +100,61 @@ while (running)
 
                 for (int i = 0; i < favorieten.Count; i++)
                 {
-                    Console.WriteLine($"{i}. {favorieten[i]}");
+                    Console.WriteLine($"{i + 1}. {favorieten[i]}");
                 }
 
                 if (favorieten.Count > 0)
                 {
-                    Console.Write("Welke favoriet wil je verwijderen? ");
-                    int removeIndex = int.Parse(Console.ReadLine());
+                    Console.Write("\nWelke favoriet wil je verwijderen? ");
 
-                    client.RemoveFromFavorieten(favorieten[removeIndex]);
-                    break;
+                    string input = Console.ReadLine();
+
+                    if (!int.TryParse(input, out int removeIndex))
+                    {
+                        Console.WriteLine("Voer een nummer in.");
+                        break;
+                    }
+
+                    removeIndex--;
+
+                    if (removeIndex < 0 || removeIndex >= favorieten.Count)
+                    {
+                        Console.Write("Niet beschickbaar");
+                        break;
+                    }
+                    else
+                    {
+                        client.RemoveFromFavorieten(favorieten[removeIndex]);
+                        break;
+                    }
                 }
                 else
-
+                {
                     Console.Write("Je hebt geen favorieten. ");
-                break;
+                    break;
+                }
             }
-
 
         case "5":
             {
                 List<IPlayable> songs = collectie.ShowPlayables();
 
-                Console.WriteLine("Welke song wil je afspelen?");
+                Console.WriteLine("\nWelke song wil je afspelen?");
 
                 for (int i = 0; i < songs.Count; i++)
                 {
-                    Console.WriteLine($"{i}. {songs[i]}");
+                    Console.WriteLine($"{i + 1}. {songs[i]}");
                 }
 
                 Console.Write("Kies: ");
-                int playIndex = int.Parse(Console.ReadLine());
+
+                if (!int.TryParse(Console.ReadLine(), out int playIndex))
+                {
+                    Console.WriteLine("Voer een nummer in.");
+                    break;
+                }
+
+                playIndex--;
 
                 if (playIndex >= 0 && playIndex < songs.Count)
                 {
@@ -122,5 +172,5 @@ while (running)
         default:
             Console.WriteLine("Ongeldige keuze.");
             break;
-            }
+    }
 }
