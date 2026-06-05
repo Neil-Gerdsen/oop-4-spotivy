@@ -59,40 +59,59 @@ namespace oop4.classes
 
         public void Play()
         {
-            if (CurrentlyPlaying == null && HuidigeCollectie != null)
-            {
-                CurrentlyPlaying = HuidigeCollectie.Huidig();
+            if (CurrentlyPlaying == null) {
+                Console.WriteLine("Geen nummer geselecteerd.");
+                return;
             }
 
-            if (CurrentlyPlaying != null)
-            {
-                CurrentlyPlaying.Play();
-                Playing = true;
-                Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
+            Playing = true;
 
-                for (CurrentTime = 0; CurrentTime <= CurrentlyPlaying.Length; CurrentTime++)
-                {
-                    // Simuleer het afspelen van het nummer
-                    System.Threading.Thread.Sleep(1000); // Wacht 1 seconde per tijdseenheid
-                    Console.WriteLine($"{CurrentTime}");
+            Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
+            Console.WriteLine("SPATIE om te pauzeren.");
 
+            while (CurrentTime < CurrentlyPlaying.Length) {
+                if (Console.KeyAvailable) {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+
+                    if (key.Key == ConsoleKey.Spacebar) {
+                        Pause();
+                        Console.WriteLine("Gepauzeerd");
+
+                        while (true) {
+                            if (Console.KeyAvailable) {
+                                ConsoleKeyInfo resumeKey = Console.ReadKey(true);
+
+                                if (resumeKey.Key == ConsoleKey.Spacebar) {
+                                    Playing = true;
+                                    Console.WriteLine("Ongepauzeerd");
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-                //Playing = false;
-                NextSong();
+
+                if (Playing) {
+                    Thread.Sleep(1000);
+                    CurrentTime++;
+
+                    Console.WriteLine(
+                        $"{CurrentTime}"
+                    );
+                }
             }
-            else
-            {
-                Console.WriteLine("Geen nummer beschikbaar.");
-            }
+
+            Playing = false;
+            CurrentTime = 0;
+
+            Console.WriteLine("Nummer afgelopen.");
+
+            NextSong();
         }
 
         public void Pause()
         {
-            if (CurrentlyPlaying != null)
-            {
-                CurrentlyPlaying.Pause();
-                Playing = false;
-            }
+            Playing = false;
         }
 
         public void Stop()
