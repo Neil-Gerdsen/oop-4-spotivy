@@ -69,35 +69,32 @@ namespace oop4.classes
             Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
             Console.WriteLine("SPATIE om te pauzeren.");
 
-            while (CurrentTime < CurrentlyPlaying.Length) {
-                if (Console.KeyAvailable) {
+            while (CurrentTime < CurrentlyPlaying.Length)
+            {
+                while (Console.KeyAvailable)
+                {
                     ConsoleKeyInfo key = Console.ReadKey(true);
 
-                    if (key.Key == ConsoleKey.Spacebar) {
-                        Pause();
-                        Console.WriteLine("Gepauzeerd");
+                    if (key.Key == ConsoleKey.Spacebar)
+                    {
+                        Playing = !Playing;
 
-                        while (true) {
-                            if (Console.KeyAvailable) {
-                                ConsoleKeyInfo resumeKey = Console.ReadKey(true);
-
-                                if (resumeKey.Key == ConsoleKey.Spacebar) {
-                                    Playing = true;
-                                    Console.WriteLine("Ongepauzeerd");
-                                    break;
-                                }
-                            }
-                        }
+                        if (Playing)
+                            Console.WriteLine("Verder afspelen");
+                        else
+                            Console.WriteLine("Gepauzeerd");
                     }
                 }
 
-                if (Playing) {
+                if (Playing)
+                {
                     Thread.Sleep(1000);
                     CurrentTime++;
-
-                    Console.WriteLine(
-                        $"{CurrentTime}"
-                    );
+                    Console.WriteLine($"{CurrentTime}/{CurrentlyPlaying.Length}");
+                }
+                else
+                {
+                    Thread.Sleep(50);
                 }
             }
 
