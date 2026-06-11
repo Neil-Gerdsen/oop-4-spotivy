@@ -129,6 +129,6 @@ namespace oop4.classes
 
                 Play(); // Client.Play opnieuw starten
             }
-        }
+        }     
     }
 }
