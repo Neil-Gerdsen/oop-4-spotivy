@@ -2,8 +2,8 @@
 using oop4;
 using oop4.classes;
 
-Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 5, Genres.Pop); 
-Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 5, Genres.Pop);
+Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 100, Genres.Pop); 
+Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 100, Genres.Pop);
 
 // 2. SongCollection aanmaken
 SongCollection collectie = new SongCollection("Mijn lijst");
@@ -46,6 +46,7 @@ while (running)
         case "2":
             {
                 List<IPlayable> alleSongs = collectie.ShowPlayables();
+                List<IPlayable> favorieten = client.Favorieten.ShowPlayables();
 
                 for (int i = 0; i < alleSongs.Count; i++)
                 {
@@ -66,6 +67,11 @@ while (running)
                 if (addIndex < 0 || addIndex >= alleSongs.Count)
                 {
                     Console.Write("Niet beschickbaar");
+                    break;
+                }
+                else if (favorieten.Contains(alleSongs[addIndex]))
+                {
+                    Console.WriteLine("Deze song staat al in je favorieten.");
                     break;
                 }
                 else

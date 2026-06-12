@@ -66,9 +66,6 @@ namespace oop4.classes
 
             Playing = true;
 
-            Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
-            Console.WriteLine("SPATIE om te pauzeren.");
-
             while (CurrentTime < CurrentlyPlaying.Length)
             {
                 while (Console.KeyAvailable)
@@ -84,13 +81,24 @@ namespace oop4.classes
                         else
                             Console.WriteLine("Gepauzeerd");
                     }
+
+                    if (key.KeyChar == '.')
+                    {
+                        Console.WriteLine("Skip naar volgend nummer...");
+                        CurrentTime = 0;
+                        NextSong();
+                        return;
+                    }
                 }
 
                 if (Playing)
                 {
                     Thread.Sleep(1000);
                     CurrentTime++;
-                    Console.WriteLine($"{CurrentTime}/{CurrentlyPlaying.Length}");
+                    Console.WriteLine($"\nNu speelt: {CurrentlyPlaying}\n");
+                    Console.WriteLine("( SPATIE ) om te pauzeren.");
+                    Console.WriteLine("( >      ) om te skippen.\n");
+                    Console.WriteLine($"{CurrentTime}/{CurrentlyPlaying.Length}\n");
                 }
                 else
                 {
