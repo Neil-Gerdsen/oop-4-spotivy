@@ -3,23 +3,23 @@ using oop4;
 using oop4.classes;
 
 
-<<<<<<< HEAD
-Song song1 = new Song("Blinding Lights", 202, Genres.Pop);
-Song song2 = new Song("Starboy", 230, Genres.Pop);
-=======
+
+
 Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 5, Genres.Pop); 
 Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 5, Genres.Pop);
->>>>>>> artists
+
 
 // 2. SongCollection aanmaken
 SongCollection collectie = new SongCollection("Mijn lijst");
 
 // 3. Songs toevoegen
-collectie.Add(song1);
-collectie.Add(song2);
+collectie.AddSong(song1);
+collectie.AddSong(song2);
 
 Client client = new Client(new List<Song> { song1, song2 }, collectie);
+Person person = new Person("John Doe");
 client.HuidigeCollectie = collectie;
+
 
 bool running = true;
 
@@ -31,6 +31,10 @@ while (running)
     Console.WriteLine("3. Toon favorieten");
     Console.WriteLine("4. Verwijder song uit favorieten");
     Console.WriteLine("5. Play een song");
+    Console.WriteLine("6. lijst aanmaken");
+    Console.WriteLine("7. lijst tonen");
+
+
     Console.Write("Kies: ");
 
     string keuze = Console.ReadLine();
@@ -171,6 +175,55 @@ while (running)
                     Console.WriteLine("Ongeldige keuze.");
                 }
 
+                break;
+            }
+        case "6":
+            {
+                Console.Write("Naam van de nieuwe lijst: ");
+                string lijstNaam = Console.ReadLine();
+                client.CreatePlaylist(lijstNaam); // ← gewoon aanroepen, niet opslaan in variabele
+                Console.WriteLine($"Nieuwe lijst '{lijstNaam}' is aangemaakt!");
+                break;
+            }
+        //case "7":
+        //    {
+        //        List<Playlist> playlists = person.ShowPlaylists();
+        //        Console.WriteLine(playlists);
+        //        if (client.HuidigeCollectie != null)
+        //        {
+        //            List<IPlayable> songs = client.HuidigeCollectie.ShowPlayables();
+        //            if (songs.Count > 0)
+        //            {
+        //                for (int i = 0; i < songs.Count; i++)
+        //                {
+        //                    Console.WriteLine($"{i + 1}. {songs[i]}");
+        //                }
+        //            }
+        //            else
+        //            {
+        //                Console.WriteLine("Deze lijst bevat geen songs.");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Er is geen lijst geselecteerd.");
+        //        }
+        //        break;
+        //    }
+        case "7":
+            {
+                List<Playlist> playlists = client.Playlists; // ← client niet person
+
+                if (playlists.Count == 0)
+                {
+                    Console.WriteLine("Geen playlists gevonden.");
+                    break;
+                }
+
+                for (int i = 0; i < playlists.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {playlists[i]}");
+                }
                 break;
             }
 
