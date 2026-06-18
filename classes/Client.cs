@@ -14,7 +14,6 @@ namespace oop4.classes
             public bool Repeat { get; set; }
             public SongCollection HuidigeCollectie { get; set; }
             public SongCollection Favorieten { get; set; }
-        //private SuperUser ActiveUser { get; set; }
             public List<Playlist> Playlists { get; set; }
         private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
@@ -40,7 +39,6 @@ namespace oop4.classes
 
         public void AddToFavorieten(IPlayable playable)
         {
-            Favorieten.Add(playable);
             Favorieten.AddSong(playable);
             Console.WriteLine($"{playable} is toegevoegd aan favorieten.");
         }
