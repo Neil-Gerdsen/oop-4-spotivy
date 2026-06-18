@@ -131,10 +131,10 @@ namespace oop4.classes
 
                 Play(); // Client.Play opnieuw starten
             }
-<<<<<<< HEAD
+
         }     
-=======
-        }
+
+        
         //public Playlist CreatePlaylist(string title)
         //{
         //    Playlist playlist = new Playlist(ActiveUser, title);
@@ -152,6 +152,6 @@ namespace oop4.classes
             foreach (Playlist p in ActiveUser.ShowPlaylists())
                 Console.WriteLine(p);
         }
->>>>>>> lijst-aanmaken
+
     }
 }

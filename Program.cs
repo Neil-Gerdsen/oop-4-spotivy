@@ -18,6 +18,8 @@ collectie.AddSong(song2);
 
 Client client = new Client(new List<Song> { song1, song2 }, collectie);
 Person person = new Person("John Doe");
+List<Playlist> playlists = client.Playlists;
+
 client.HuidigeCollectie = collectie;
 
 
@@ -179,7 +181,6 @@ while (running)
             }
         case "6":
             {
-                List<Playlist> playlists = client.Playlists;
                 Console.Write("Naam van de nieuwe lijst: ");
 
                 string lijstNaam = Console.ReadLine();
@@ -222,7 +223,7 @@ while (running)
         //    }
         case "7":
             {
-                List<Playlist> playlists = client.Playlists; // ← client niet person
+                int keuzeNummer;
 
                 if (playlists.Count == 0)
                 {
@@ -230,15 +231,101 @@ while (running)
                     break;
                 }
 
+                // Playlist kiezen
+                Console.WriteLine("=== Jouw playlists ===");
                 for (int i = 0; i < playlists.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {playlists[i]}");
                 }
+                Console.WriteLine("0. Terug");
+                Console.Write("Kies een playlist: ");
+
+                string keuzeInput = Console.ReadLine();
+                if (!int.TryParse(keuzeInput, out keuzeNummer) || keuzeNummer == 0)
+                    break;
+
+                if (keuzeNummer < 1 || keuzeNummer > playlists.Count)
+                {
+                    Console.WriteLine("Ongeldige keuze.");
+                    break;
+                }
+
+                Playlist gekozenPlaylist = playlists[keuzeNummer - 1];
+
+                // Submenu voor gekozen playlist
+                bool inPlaylist = true;
+                while (inPlaylist)
+                {
+                    Console.WriteLine($"\n=== {gekozenPlaylist.Title} ===");
+
+                    var nummers = gekozenPlaylist.ShowPlayables(); // ← pas aan naar jouw property naam
+                    if (nummers.Count == 0)
+                    {
+                        Console.WriteLine("Geen nummers in deze playlist.");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < nummers.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {nummers[i]}");
+                        }
+                    }
+
+                    Console.WriteLine("\n1. Nummer toevoegen");
+                    Console.WriteLine("0. Terug");
+                    Console.Write("Keuze: ");
+
+                    string subKeuze = Console.ReadLine();
+
+                    switch (subKeuze)
+                    {
+                        case "1":
+                            List<IPlayable> alleSongs = collectie.ShowPlayables(); // ← pas aan naar jouw methode/property
+                            if (alleSongs.Count == 0)
+                            {
+                                Console.WriteLine("Geen nummers beschikbaar.");
+                                break;
+                            }
+
+                            Console.WriteLine("\n=== Beschikbare nummers ===");
+                            for (int i = 0; i < alleSongs.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1}. {alleSongs[i]}");
+                            }
+                            Console.Write("Kies een nummer om toe te voegen: ");
+
+                            string songInput = Console.ReadLine();
+                            if (int.TryParse(songInput, out int songKeuze) &&
+                                songKeuze >= 1 && songKeuze <= alleSongs.Count)
+                            {
+                                gekozenPlaylist.Add(alleSongs[songKeuze - 1]);
+                                Console.WriteLine($"'{alleSongs[songKeuze - 1]}' toegevoegd aan '{gekozenPlaylist.Title}'!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ongeldige keuze.");
+                            }
+                            break;
+
+                        case "0":
+                            inPlaylist = false;
+                            break;
+
+                        default:
+                            Console.WriteLine("Ongeldige keuze.");
+                            break;
+                    }
+                }
+
                 break;
             }
-
+            break;
         default:
             Console.WriteLine("Ongeldige keuze.");
             break;
     }
-}
+    
+
+
+    }
+
