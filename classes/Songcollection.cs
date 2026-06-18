@@ -8,7 +8,8 @@ namespace oop4.classes
     {
         public string Title { get; set; }
 
-        private List<IPlayable> playables { get; set; }
+
+        protected List<IPlayable> playables { get; set; }
         private int huidigIndex = 0;
 
 
@@ -17,6 +18,10 @@ namespace oop4.classes
             Title = title;
             playables = new List<IPlayable>();
 
+        }
+        public override string ToString()
+        {
+            return Title; // ← toevoegen
         }
 
         public IPlayable Huidig()
@@ -31,10 +36,7 @@ namespace oop4.classes
             else
                 huidigIndex = 0;
         }
-        public override string ToString()
-        {
-            return $"{Title} - {string.Join(", ", ShowPlayables)}";
-        }
+        
 
         public List<IPlayable> ShowPlayables()
         {
@@ -42,7 +44,7 @@ namespace oop4.classes
             return playables;
         }
 
-        public void Add(IPlayable playable)
+        public void AddSong(IPlayable playable)
         {
             playables.Add(playable); // song toevoegen
         }

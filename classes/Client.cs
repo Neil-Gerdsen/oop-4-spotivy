@@ -14,7 +14,8 @@ namespace oop4.classes
             public bool Repeat { get; set; }
             public SongCollection HuidigeCollectie { get; set; }
             public SongCollection Favorieten { get; set; }
-        //private SuperUser ActiveUser { get; set; }
+            public List<Playlist> Playlists { get; set; }
+        private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
         //private List<Song> AllSongs { get; set; }
         //private List<Person> AllUsers { get; set; }
@@ -33,11 +34,12 @@ namespace oop4.classes
             Favorieten = new SongCollection("Favorieten");
             Playing = false;
             CurrentTime = 0;
+            Playlists = new List<Playlist>();
         }
 
         public void AddToFavorieten(IPlayable playable)
         {
-            Favorieten.Add(playable);
+            Favorieten.AddSong(playable);
             Console.WriteLine($"{playable} is toegevoegd aan favorieten.");
         }
 
@@ -66,38 +68,43 @@ namespace oop4.classes
 
             Playing = true;
 
-            Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
-            Console.WriteLine("SPATIE om te pauzeren.");
-
-            while (CurrentTime < CurrentlyPlaying.Length) {
-                if (Console.KeyAvailable) {
+            while (CurrentTime < CurrentlyPlaying.Length)
+            {
+                while (Console.KeyAvailable)
+                {
                     ConsoleKeyInfo key = Console.ReadKey(true);
 
-                    if (key.Key == ConsoleKey.Spacebar) {
-                        Pause();
-                        Console.WriteLine("Gepauzeerd");
+                    if (key.Key == ConsoleKey.Spacebar)
+                    {
+                        Playing = !Playing;
 
-                        while (true) {
-                            if (Console.KeyAvailable) {
-                                ConsoleKeyInfo resumeKey = Console.ReadKey(true);
+                        if (Playing)
+                            Console.WriteLine("Verder afspelen");
+                        else
+                            Console.WriteLine("Gepauzeerd");
+                    }
 
-                                if (resumeKey.Key == ConsoleKey.Spacebar) {
-                                    Playing = true;
-                                    Console.WriteLine("Ongepauzeerd");
-                                    break;
-                                }
-                            }
-                        }
+                    if (key.KeyChar == '.')
+                    {
+                        Console.WriteLine("Skip naar volgend nummer...");
+                        CurrentTime = 0;
+                        NextSong();
+                        return;
                     }
                 }
 
-                if (Playing) {
+                if (Playing)
+                {
                     Thread.Sleep(1000);
                     CurrentTime++;
-
-                    Console.WriteLine(
-                        $"{CurrentTime}"
-                    );
+                    Console.WriteLine($"\nNu speelt: {CurrentlyPlaying}\n");
+                    Console.WriteLine("( SPATIE ) om te pauzeren.");
+                    Console.WriteLine("( >      ) om te skippen.\n");
+                    Console.WriteLine($"{CurrentTime}/{CurrentlyPlaying.Length}\n");
+                }
+                else
+                {
+                    Thread.Sleep(50);
                 }
             }
 
@@ -129,6 +136,23 @@ namespace oop4.classes
 
                 Play(); // Client.Play opnieuw starten
             }
+        }
+        //public Playlist CreatePlaylist(string title)
+        //{
+        //    Playlist playlist = new Playlist(ActiveUser, title);
+        //    ActiveUser.Add(playlist);
+        //    return playlist; // ← geeft playlist terug
+        //}
+        public Playlist CreatePlaylist(string title)
+        {
+            Playlist playlist = new Playlist(null, title);
+            Playlists.Add(playlist); // ← werkt nu want Playlists is List<Playlist>
+            return playlist;
+        }
+        public void ShowPlaylists()
+        {
+            foreach (Playlist p in ActiveUser.ShowPlaylists())
+                Console.WriteLine(p);
         }
     }
 }
