@@ -15,6 +15,8 @@ namespace oop4.classes
             public SongCollection HuidigeCollectie { get; set; }
             public SongCollection Favorieten { get; set; }
         //private SuperUser ActiveUser { get; set; }
+            public List<Playlist> Playlists { get; set; }
+        private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
         //private List<Song> AllSongs { get; set; }
         //private List<Person> AllUsers { get; set; }
@@ -33,11 +35,13 @@ namespace oop4.classes
             Favorieten = new SongCollection("Favorieten");
             Playing = false;
             CurrentTime = 0;
+            Playlists = new List<Playlist>();
         }
 
         public void AddToFavorieten(IPlayable playable)
         {
             Favorieten.Add(playable);
+            Favorieten.AddSong(playable);
             Console.WriteLine($"{playable} is toegevoegd aan favorieten.");
         }
 
@@ -129,6 +133,27 @@ namespace oop4.classes
 
                 Play(); // Client.Play opnieuw starten
             }
+<<<<<<< HEAD
         }     
+=======
+        }
+        //public Playlist CreatePlaylist(string title)
+        //{
+        //    Playlist playlist = new Playlist(ActiveUser, title);
+        //    ActiveUser.Add(playlist);
+        //    return playlist; // ← geeft playlist terug
+        //}
+        public Playlist CreatePlaylist(string title)
+        {
+            Playlist playlist = new Playlist(null, title);
+            Playlists.Add(playlist); // ← werkt nu want Playlists is List<Playlist>
+            return playlist;
+        }
+        public void ShowPlaylists()
+        {
+            foreach (Playlist p in ActiveUser.ShowPlaylists())
+                Console.WriteLine(p);
+        }
+>>>>>>> lijst-aanmaken
     }
 }
