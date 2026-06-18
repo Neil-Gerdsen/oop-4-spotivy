@@ -179,10 +179,20 @@ while (running)
             }
         case "6":
             {
+                List<Playlist> playlists = client.Playlists;
                 Console.Write("Naam van de nieuwe lijst: ");
+
                 string lijstNaam = Console.ReadLine();
-                client.CreatePlaylist(lijstNaam); // ← gewoon aanroepen, niet opslaan in variabele
-                Console.WriteLine($"Nieuwe lijst '{lijstNaam}' is aangemaakt!");
+                if (playlists.Any(p => p.Title == lijstNaam))
+                {
+                    Console.WriteLine($"Er bestaat al een lijst met de naam '{lijstNaam}'!");
+
+                }
+                else
+                {
+                    client.CreatePlaylist(lijstNaam);
+                    Console.WriteLine($"Nieuwe lijst '{lijstNaam}' is aangemaakt!");
+                }
                 break;
             }
         //case "7":
