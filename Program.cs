@@ -272,6 +272,7 @@ while (running)
                     }
 
                     Console.WriteLine("\n1. Nummer toevoegen");
+                    Console.WriteLine("\n2. Lijst afspelen");
                     Console.WriteLine("0. Terug");
                     Console.Write("Keuze: ");
 
@@ -279,6 +280,26 @@ while (running)
 
                     switch (subKeuze)
                     {
+
+                        case "2":
+                            List<IPlayable> nummersAfspelen = gekozenPlaylist.ShowPlayables();
+                            if (nummersAfspelen.Count == 0)
+                            {
+                                Console.WriteLine("Geen nummers in deze playlist.");
+                                break;
+                            }
+
+                            SongCollection tijdelijkeCollectie = new SongCollection(gekozenPlaylist.Title);
+                            foreach (IPlayable playable in nummersAfspelen)
+                            {
+                                tijdelijkeCollectie.AddSong(playable);
+                            }
+
+                            client.HuidigeCollectie = tijdelijkeCollectie;
+                            client.CurrentlyPlaying = tijdelijkeCollectie.Huidig();
+                            client.Play();
+
+                            break;
                         case "1":
                             List<IPlayable> alleSongs = collectie.ShowPlayables(); // ← pas aan naar jouw methode/property
                             if (alleSongs.Count == 0)
@@ -306,6 +327,7 @@ while (running)
                                 Console.WriteLine("Ongeldige keuze.");
                             }
                             break;
+
 
                         case "0":
                             inPlaylist = false;
