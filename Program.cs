@@ -8,21 +8,13 @@ using oop4.classes;
 Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 5, Genres.Pop); 
 Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 5, Genres.Pop);
 
-Song song3 = new Song("oo", new List<Artist> { new Artist("The neil") }, 5, Genres.Pop);
-Song song4 = new Song("iii", new List<Artist> { new Artist("The bob") }, 5, Genres.Pop);
-
 
 // 2. SongCollection aanmaken
 SongCollection collectie = new SongCollection("Mijn lijst");
 
-SongCollection collectie2 = new SongCollection("Zijn lijst");
-
 // 3. Songs toevoegen
 collectie.AddSong(song1);
 collectie.AddSong(song2);
-
-collectie2.AddSong(song3);
-collectie2.AddSong(song4);
 
 Client client = new Client(new List<Song> { song1, song2 }, collectie);
 Person person = new Person("John Doe");
@@ -204,31 +196,7 @@ while (running)
                 }
                 break;
             }
-        //case "7":
-        //    {
-        //        List<Playlist> playlists = person.ShowPlaylists();
-        //        Console.WriteLine(playlists);
-        //        if (client.HuidigeCollectie != null)
-        //        {
-        //            List<IPlayable> songs = client.HuidigeCollectie.ShowPlayables();
-        //            if (songs.Count > 0)
-        //            {
-        //                for (int i = 0; i < songs.Count; i++)
-        //                {
-        //                    Console.WriteLine($"{i + 1}. {songs[i]}");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("Deze lijst bevat geen songs.");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Er is geen lijst geselecteerd.");
-        //        }
-        //        break;
-        //    }
+
         case "7":
             {
                 List<Playlist> playlists = client.Playlists; // ← client niet person
