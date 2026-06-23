@@ -149,5 +149,17 @@ namespace oop4.classes
             foreach (Playlist p in ActiveUser.ShowPlaylists())
                 Console.WriteLine(p);
         }
+        public void CopySongsToPlaylist(SongCollection bron, Playlist doel)
+        {
+            foreach (IPlayable song in bron.ShowPlayables())
+            {
+                if (!doel.ShowPlayables().Contains(song))
+                {
+                    doel.Add(song);
+                }
+            }
+
+            Console.WriteLine("Liedjes gekopieerd.");
+        }
     }
 }

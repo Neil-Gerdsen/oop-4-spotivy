@@ -23,9 +23,12 @@ namespace oop4.classes
 
         public void Add(IPlayable playable)
         {
-            playables.Add(playable); 
+            if (!playables.Contains(playable))
+            {
+                playables.Add(playable);
+            }
         }
 
-        
+
     }
 }

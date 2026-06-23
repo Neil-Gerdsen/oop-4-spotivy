@@ -8,13 +8,21 @@ using oop4.classes;
 Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 5, Genres.Pop); 
 Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 5, Genres.Pop);
 
+Song song3 = new Song("oo", new List<Artist> { new Artist("The neil") }, 5, Genres.Pop);
+Song song4 = new Song("iii", new List<Artist> { new Artist("The bob") }, 5, Genres.Pop);
+
 
 // 2. SongCollection aanmaken
 SongCollection collectie = new SongCollection("Mijn lijst");
 
+SongCollection collectie2 = new SongCollection("Zijn lijst");
+
 // 3. Songs toevoegen
 collectie.AddSong(song1);
 collectie.AddSong(song2);
+
+collectie2.AddSong(song3);
+collectie2.AddSong(song4);
 
 Client client = new Client(new List<Song> { song1, song2 }, collectie);
 Person person = new Person("John Doe");
@@ -33,6 +41,7 @@ while (running)
     Console.WriteLine("5. Play een song");
     Console.WriteLine("6. lijst aanmaken");
     Console.WriteLine("7. lijst tonen");
+    Console.WriteLine("8. Kopieer lijst naar andere lijst");
 
 
     Console.Write("Kies: ");
@@ -234,6 +243,99 @@ while (running)
                 {
                     Console.WriteLine($"{i + 1}. {playlists[i]}");
                 }
+                break;
+            }
+
+        case "8":
+            {
+                List<Playlist> playlists = client.Playlists;
+
+                if (playlists.Count < 2)
+                {
+                    Console.WriteLine("Je hebt minimaal 2 playlists nodig om te kopiëren.");
+                    break;
+                }
+
+                Console.WriteLine("\nWelke lijst wil je kopiëren?");
+
+                for (int i = 0; i < playlists.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {playlists[i]}");
+                }
+
+                Console.Write("Bronlijst: ");
+
+                if (!int.TryParse(Console.ReadLine(), out int bronIndex))
+                {
+                    Console.WriteLine("Voer een nummer in.");
+                    break;
+                }
+
+                bronIndex--;
+
+                if (bronIndex < 0 || bronIndex >= playlists.Count)
+                {
+                    Console.WriteLine("Ongeldige keuze.");
+                    break;
+                }
+
+                Console.WriteLine("\nNaar welke lijst wil je kopiëren?");
+
+                for (int i = 0; i < playlists.Count; i++)
+                {
+                    if (i != bronIndex)
+                    {
+                        Console.WriteLine($"{i + 1}. {playlists[i]}");
+                    }
+                }
+
+                Console.Write("Ontvangende lijst: ");
+
+                if (!int.TryParse(Console.ReadLine(), out int doelIndex))
+                {
+                    Console.WriteLine("Voer een nummer in.");
+                    break;
+                }
+
+                doelIndex--;
+
+                if (doelIndex < 0 || doelIndex >= playlists.Count)
+                {
+                    Console.WriteLine("Ongeldige keuze.");
+                    break;
+                }
+
+                if (doelIndex == bronIndex)
+                {
+                    Console.WriteLine("Je kunt een lijst niet naar zichzelf kopiëren.");
+                    break;
+                }
+
+                Playlist bronLijst = playlists[bronIndex];
+                Playlist doelLijst = playlists[doelIndex];
+
+                List<IPlayable> bronSongs = bronLijst.ShowPlayables();
+                List<IPlayable> doelSongs = doelLijst.ShowPlayables();
+
+                int toegevoegd = 0;
+                int overgeslagen = 0;
+
+                foreach (IPlayable song in bronSongs)
+                {
+                    if (!doelSongs.Contains(song))
+                    {
+                        doelLijst.AddSong(song);
+                        toegevoegd++;
+                    }
+                    else
+                    {
+                        overgeslagen++;
+                    }
+                }
+
+                Console.WriteLine($"{toegevoegd} liedje(s) toegevoegd aan '{doelLijst}'.");
+                Console.WriteLine($"{overgeslagen} dubbele liedje(s) overgeslagen.");
+
                 break;
             }
 
