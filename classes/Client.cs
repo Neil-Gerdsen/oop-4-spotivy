@@ -4,17 +4,17 @@ using System.Text;
 
 namespace oop4.classes
 {
-   
+
     public class Client
     {
-            public IPlayable CurrentlyPlaying { get; set; }  
-            public int CurrentTime { get; set; }             
-            public bool Playing { get; set; }               
-            public bool Shuffle { get; set; }
-            public bool Repeat { get; set; }
-            public SongCollection HuidigeCollectie { get; set; }
-            public SongCollection Favorieten { get; set; }
-            public List<Playlist> Playlists { get; set; }
+        public IPlayable CurrentlyPlaying { get; set; }
+        public int CurrentTime { get; set; }
+        public bool Playing { get; set; }
+        public bool Shuffle { get; set; }
+        public bool Repeat { get; set; }
+        public SongCollection HuidigeCollectie { get; set; }
+        public SongCollection Favorieten { get; set; }
+        public List<Playlist> Playlists { get; set; }
         private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
         //private List<Song> AllSongs { get; set; }
@@ -61,7 +61,8 @@ namespace oop4.classes
 
         public void Play()
         {
-            if (CurrentlyPlaying == null) {
+            if (CurrentlyPlaying == null)
+            {
                 Console.WriteLine("Geen nummer geselecteerd.");
                 return;
             }
@@ -71,19 +72,25 @@ namespace oop4.classes
             Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
             Console.WriteLine("SPATIE om te pauzeren.");
 
-            while (CurrentTime < CurrentlyPlaying.Length) {
-                if (Console.KeyAvailable) {
+            while (CurrentTime < CurrentlyPlaying.Length)
+            {
+                if (Console.KeyAvailable)
+                {
                     ConsoleKeyInfo key = Console.ReadKey(true);
 
-                    if (key.Key == ConsoleKey.Spacebar) {
+                    if (key.Key == ConsoleKey.Spacebar)
+                    {
                         Pause();
                         Console.WriteLine("Gepauzeerd");
 
-                        while (true) {
-                            if (Console.KeyAvailable) {
+                        while (true)
+                        {
+                            if (Console.KeyAvailable)
+                            {
                                 ConsoleKeyInfo resumeKey = Console.ReadKey(true);
 
-                                if (resumeKey.Key == ConsoleKey.Spacebar) {
+                                if (resumeKey.Key == ConsoleKey.Spacebar)
+                                {
                                     Playing = true;
                                     Console.WriteLine("Ongepauzeerd");
                                     break;
@@ -93,7 +100,8 @@ namespace oop4.classes
                     }
                 }
 
-                if (Playing) {
+                if (Playing)
+                {
                     Thread.Sleep(1000);
                     CurrentTime++;
 
@@ -129,41 +137,28 @@ namespace oop4.classes
                 HuidigeCollectie.Next();
                 CurrentlyPlaying = HuidigeCollectie.Huidig();
 
-                Play(); // Client.Play opnieuw starten
+                Play();
             }
-<<<<<<< HEAD
-        }     
-=======
         }
-        //public Playlist CreatePlaylist(string title)
-        //{
-        //    Playlist playlist = new Playlist(ActiveUser, title);
-        //    ActiveUser.Add(playlist);
-        //    return playlist; // ← geeft playlist terug
-        //}
+
         public Playlist CreatePlaylist(string title)
         {
             Playlist playlist = new Playlist(null, title);
-            Playlists.Add(playlist); // ← werkt nu want Playlists is List<Playlist>
+            Playlists.Add(playlist);
             return playlist;
         }
-        public void ShowPlaylists()
-        {
-            foreach (Playlist p in ActiveUser.ShowPlaylists())
-                Console.WriteLine(p);
-        }
+
         public void CopySongsToPlaylist(SongCollection bron, Playlist doel)
         {
             foreach (IPlayable song in bron.ShowPlayables())
             {
                 if (!doel.ShowPlayables().Contains(song))
                 {
-                    doel.Add(song);
+                    doel.AddSong(song);
                 }
             }
 
             Console.WriteLine("Liedjes gekopieerd.");
         }
->>>>>>> lijst-aanmaken
     }
 }
