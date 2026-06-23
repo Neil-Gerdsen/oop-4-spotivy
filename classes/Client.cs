@@ -131,6 +131,9 @@ namespace oop4.classes
 
                 Play(); // Client.Play opnieuw starten
             }
+<<<<<<< HEAD
+        }     
+=======
         }
         //public Playlist CreatePlaylist(string title)
         //{
@@ -161,5 +164,6 @@ namespace oop4.classes
 
             Console.WriteLine("Liedjes gekopieerd.");
         }
+>>>>>>> lijst-aanmaken
     }
 }
