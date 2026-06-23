@@ -321,7 +321,6 @@ while (running)
 
         case "8":
             {
-                List<Playlist> playlists = client.Playlists;
 
                 if (playlists.Count < 2)
                 {
