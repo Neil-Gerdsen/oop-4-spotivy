@@ -70,35 +70,34 @@ namespace oop4.classes
             Playing = true;
 
             Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
-            Console.WriteLine("SPATIE om te pauzeren.");
+            Console.WriteLine("( SPATIE ) om te pauzeren.");
+            Console.WriteLine("( >      ) om te skippen.");
 
             while (CurrentTime < CurrentlyPlaying.Length)
             {
-                if (Console.KeyAvailable)
+                while (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(true);
 
                     if (key.Key == ConsoleKey.Spacebar)
                     {
-                        Pause();
-                        Console.WriteLine("Gepauzeerd");
+                        Playing = !Playing;
 
-                        while (true)
-                        {
-                            if (Console.KeyAvailable)
-                            {
-                                ConsoleKeyInfo resumeKey = Console.ReadKey(true);
+                        if (Playing)
+                            Console.WriteLine("Verder afspelen");
+                        else
+                            Console.WriteLine("Gepauzeerd");
+                    }
 
-                                if (resumeKey.Key == ConsoleKey.Spacebar)
-                                {
-                                    Playing = true;
-                                    Console.WriteLine("Ongepauzeerd");
-                                    break;
-                                }
-                            }
-                        }
+                    if (key.KeyChar == '.' || key.KeyChar == '>')
+                    {
+                        Console.WriteLine("Skip naar volgend nummer...");
+                        CurrentTime = 0;
+                        NextSong();
+                        return;
                     }
                 }
+
 
                 if (Playing)
                 {
