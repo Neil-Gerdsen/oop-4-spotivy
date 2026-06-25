@@ -263,7 +263,7 @@ while (running)
                 {
                     Console.WriteLine($"\n=== {gekozenPlaylist.Title} ===");
 
-                    var nummers = gekozenPlaylist.ShowPlayables(); // ← pas aan naar jouw property naam
+                    var nummers = gekozenPlaylist.ShowPlayables();
                     if (nummers.Count == 0)
                     {
                         Console.WriteLine("Geen nummers in deze playlist.");
@@ -278,6 +278,8 @@ while (running)
 
                     Console.WriteLine("\n1. Nummer toevoegen");
                     Console.WriteLine("\n2. Lijst afspelen");
+                    Console.WriteLine("\n3. Nummer verwijderen");
+
                     Console.WriteLine("0. Terug");
                     Console.Write("Keuze: ");
 
@@ -286,25 +288,6 @@ while (running)
                     switch (subKeuze)
                     {
 
-                        case "2":
-                            List<IPlayable> nummersAfspelen = gekozenPlaylist.ShowPlayables();
-                            if (nummersAfspelen.Count == 0)
-                            {
-                                Console.WriteLine("Geen nummers in deze playlist.");
-                                break;
-                            }
-
-                            SongCollection tijdelijkeCollectie = new SongCollection(gekozenPlaylist.Title);
-                            foreach (IPlayable playable in nummersAfspelen)
-                            {
-                                tijdelijkeCollectie.AddSong(playable);
-                            }
-
-                            client.HuidigeCollectie = tijdelijkeCollectie;
-                            client.CurrentlyPlaying = tijdelijkeCollectie.Huidig();
-                            client.Play();
-
-                            break;
                         case "1":
                             List<IPlayable> alleSongs = collectie.ShowPlayables(); // ← pas aan naar jouw methode/property
                             if (alleSongs.Count == 0)
@@ -332,6 +315,68 @@ while (running)
                                 Console.WriteLine("Ongeldige keuze.");
                             }
                             break;
+
+                        case "2":
+                            List<IPlayable> nummersAfspelen = gekozenPlaylist.ShowPlayables();
+                            if (nummersAfspelen.Count == 0)
+                            {
+                                Console.WriteLine("Geen nummers in deze playlist.");
+                                break;
+                            }
+
+                            SongCollection tijdelijkeCollectie = new SongCollection(gekozenPlaylist.Title);
+                            foreach (IPlayable playable in nummersAfspelen)
+                            {
+                                tijdelijkeCollectie.AddSong(playable);
+                            }
+
+                            client.HuidigeCollectie = tijdelijkeCollectie;
+                            client.CurrentlyPlaying = tijdelijkeCollectie.Huidig();
+                            client.Play();
+
+                            break;
+
+
+                        case "3":
+
+
+                            if (nummers.Count == 0)
+                            {
+                                Console.WriteLine("De playlist bevat geen nummers.");
+                                break;
+                            }
+
+                            Console.WriteLine("\n=== Nummers in playlist ===");
+
+                            for (int i = 0; i < nummers.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1}. {nummers[i]}");
+                            }
+
+                            Console.Write("\nWelk nummer wil je verwijderen? ");
+
+                            string input = Console.ReadLine();
+
+                            if (!int.TryParse(input, out int removeIndex))
+                            {
+                                Console.WriteLine("Voer een geldig nummer in.");
+                                break;
+                            }
+
+                            removeIndex--;
+
+                            if (removeIndex < 0 || removeIndex >= nummers.Count)
+                            {
+                                Console.WriteLine("Nummer niet beschikbaar.");
+                                break;
+                            }
+
+                            gekozenPlaylist.Remove(nummers[removeIndex]);
+
+                            Console.WriteLine("Nummer verwijderd uit de playlist.");
+
+                            break;
+
 
 
                         case "0":
