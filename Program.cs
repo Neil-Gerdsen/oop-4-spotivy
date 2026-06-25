@@ -5,12 +5,37 @@ using oop4.classes;
 Song song1 = new Song("Blinding Lights", new List<Artist> { new Artist("The Weeknd") }, 100, Genres.Pop); 
 Song song2 = new Song("Starboy", new List<Artist> { new Artist("The ferdi") }, 100, Genres.Pop);
 
+Song song3 = new Song("Enemies", new List<Artist> { new Artist("Arcane") }, 100, Genres.Electronic);
+Song song4 = new Song("Wasteland", new List<Artist> { new Artist("Arcane") }, 100, Genres.Electronic);
+
+Song song5 = new Song("This Love", new List<Artist> { new Artist("Maroon 5") }, 100, Genres.Pop);
+Song song6 = new Song("Harder to Breathe", new List<Artist> { new Artist("Maroon 5") }, 100, Genres.Pop);
+
 // 2. SongCollection aanmaken
 SongCollection collectie = new SongCollection("Mijn lijst");
 
 // 3. Songs toevoegen
 collectie.AddSong(song1);
 collectie.AddSong(song2);
+
+// 4. Albums maken
+Artist arcane = new Artist("Arcane");
+Artist maroon5 = new Artist("Maroon 5");
+
+// 5. Album collectie aanmaken
+Album album1 = new Album(new List<Artist> { arcane }, "leage of legends");
+Album album2 = new Album(new List<Artist> { maroon5 }, "Songs About Jane");
+
+// 6. Songs toevoegen aan album
+album1.AddSong(song3);
+album1.AddSong(song4);
+
+album2.AddSong(song5);
+album2.AddSong(song6);
+
+AlbumCollection albumCollectie = new AlbumCollection("Alle albums");
+albumCollectie.AddAlbum(album1);
+albumCollectie.AddAlbum(album2);
 
 Client client = new Client(new List<Song> { song1, song2 }, collectie);
 Person person = new Person("John Doe");
@@ -31,7 +56,8 @@ while (running)
     Console.WriteLine("5. Play een song");
     Console.WriteLine("6. lijst aanmaken");
     Console.WriteLine("7. lijst tonen");
-    Console.WriteLine("8. Kopieer lijst naar andere lijst");
+    Console.WriteLine("8. Kopieer lijst/album naar andere lijst");
+    Console.WriteLine("9. Albums tonen en afspelen");
 
 
     Console.Write("Kies: ");
@@ -323,47 +349,95 @@ while (running)
 
         case "8":
             {
+                List<Album> albums = albumCollectie.ShowAlbums();
 
-                if (playlists.Count < 2)
+                if (playlists.Count == 0)
                 {
-                    Console.WriteLine("Je hebt minimaal 2 playlists nodig om te kopiëren.");
+                    Console.WriteLine("Je hebt minimaal 1 playlist nodig als ontvangende lijst.");
                     break;
                 }
 
-                Console.WriteLine("\nWelke lijst wil je kopiëren?");
+                Console.WriteLine("\nWat wil je kopiëren?");
+                Console.WriteLine("1. Playlist");
+                Console.WriteLine("2. Album");
+                Console.Write("Kies bron type: ");
+
+                if (!int.TryParse(Console.ReadLine(), out int bronType))
+                {
+                    Console.WriteLine("Voer een nummer in.");
+                    break;
+                }
+
+                SongCollection bronCollectie;
+
+                if (bronType == 1)
+                {
+                    Console.WriteLine("\nWelke playlist wil je kopiëren?");
+
+                    for (int i = 0; i < playlists.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {playlists[i]}");
+                    }
+
+                    Console.Write("Bronplaylist: ");
+
+                    if (!int.TryParse(Console.ReadLine(), out int bronIndex))
+                    {
+                        Console.WriteLine("Voer een nummer in.");
+                        break;
+                    }
+
+                    bronIndex--;
+
+                    if (bronIndex < 0 || bronIndex >= playlists.Count)
+                    {
+                        Console.WriteLine("Ongeldige keuze.");
+                        break;
+                    }
+
+                    bronCollectie = playlists[bronIndex];
+                }
+                else if (bronType == 2)
+                {
+                    Console.WriteLine("\nWelk album wil je kopiëren?");
+
+                    for (int i = 0; i < albums.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {albums[i]}");
+                    }
+
+                    Console.Write("Bronalbum: ");
+
+                    if (!int.TryParse(Console.ReadLine(), out int albumIndex))
+                    {
+                        Console.WriteLine("Voer een nummer in.");
+                        break;
+                    }
+
+                    albumIndex--;
+
+                    if (albumIndex < 0 || albumIndex >= albums.Count)
+                    {
+                        Console.WriteLine("Ongeldige keuze.");
+                        break;
+                    }
+
+                    bronCollectie = albums[albumIndex];
+                }
+                else
+                {
+                    Console.WriteLine("Ongeldige keuze.");
+                    break;
+                }
+
+                Console.WriteLine("\nNaar welke playlist wil je kopiëren?");
 
                 for (int i = 0; i < playlists.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {playlists[i]}");
                 }
 
-                Console.Write("Bronlijst: ");
-
-                if (!int.TryParse(Console.ReadLine(), out int bronIndex))
-                {
-                    Console.WriteLine("Voer een nummer in.");
-                    break;
-                }
-
-                bronIndex--;
-
-                if (bronIndex < 0 || bronIndex >= playlists.Count)
-                {
-                    Console.WriteLine("Ongeldige keuze.");
-                    break;
-                }
-
-                Console.WriteLine("\nNaar welke lijst wil je kopiëren?");
-
-                for (int i = 0; i < playlists.Count; i++)
-                {
-                    if (i != bronIndex)
-                    {
-                        Console.WriteLine($"{i + 1}. {playlists[i]}");
-                    }
-                }
-
-                Console.Write("Ontvangende lijst: ");
+                Console.Write("Ontvangende playlist: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int doelIndex))
                 {
@@ -379,16 +453,15 @@ while (running)
                     break;
                 }
 
-                if (doelIndex == bronIndex)
+                Playlist doelLijst = playlists[doelIndex];
+
+                if (bronCollectie == doelLijst)
                 {
                     Console.WriteLine("Je kunt een lijst niet naar zichzelf kopiëren.");
                     break;
                 }
 
-                Playlist bronLijst = playlists[bronIndex];
-                Playlist doelLijst = playlists[doelIndex];
-
-                List<IPlayable> bronSongs = bronLijst.ShowPlayables();
+                List<IPlayable> bronSongs = bronCollectie.ShowPlayables();
                 List<IPlayable> doelSongs = doelLijst.ShowPlayables();
 
                 int toegevoegd = 0;
@@ -409,6 +482,54 @@ while (running)
 
                 Console.WriteLine($"{toegevoegd} liedje(s) toegevoegd aan '{doelLijst}'.");
                 Console.WriteLine($"{overgeslagen} dubbele liedje(s) overgeslagen.");
+
+                break;
+            }
+
+        case "9":
+            {
+                List<Album> albums = albumCollectie.ShowAlbums();
+
+                if (albums.Count == 0)
+                {
+                    Console.WriteLine("Geen albums beschikbaar.");
+                    break;
+                }
+
+                Console.WriteLine("\n=== Albums ===");
+
+                for (int i = 0; i < albums.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {albums[i]}");
+                }
+
+                Console.Write("Welk album wil je afspelen? ");
+
+                if (!int.TryParse(Console.ReadLine(), out int albumIndex))
+                {
+                    Console.WriteLine("Voer een nummer in.");
+                    break;
+                }
+
+                albumIndex--;
+
+                if (albumIndex < 0 || albumIndex >= albums.Count)
+                {
+                    Console.WriteLine("Ongeldige keuze.");
+                    break;
+                }
+
+                Album gekozenAlbum = albums[albumIndex];
+
+                if (gekozenAlbum.ShowPlayables().Count == 0)
+                {
+                    Console.WriteLine("Dit album heeft geen nummers.");
+                    break;
+                }
+
+                client.HuidigeCollectie = gekozenAlbum;
+                client.CurrentlyPlaying = gekozenAlbum.Huidig();
+                client.Play();
 
                 break;
             }
