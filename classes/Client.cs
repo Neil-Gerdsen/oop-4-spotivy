@@ -72,6 +72,7 @@ namespace oop4.classes
             Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
             Console.WriteLine("( SPATIE ) om te pauzeren.");
             Console.WriteLine("( >      ) om te skippen.");
+            Console.WriteLine("( X      ) om te stoppen.");
 
             while (CurrentTime < CurrentlyPlaying.Length)
             {
@@ -92,8 +93,14 @@ namespace oop4.classes
                     if (key.KeyChar == '.' || key.KeyChar == '>')
                     {
                         Console.WriteLine("Skip naar volgend nummer...");
-                        CurrentTime = 0;
                         NextSong();
+                        return;
+                    }
+
+                    if (key.KeyChar == 'X' || key.KeyChar == 'x')
+                    {
+                        Console.WriteLine("Liedje stoppen");
+                        Stop();
                         return;
                     }
                 }
@@ -104,7 +111,8 @@ namespace oop4.classes
                     CurrentTime++;
                     Console.WriteLine($"\nNu speelt: {CurrentlyPlaying}\n");
                     Console.WriteLine("( SPATIE ) om te pauzeren.");
-                    Console.WriteLine("( >      ) om te skippen.\n");
+                    Console.WriteLine("( >      ) om te skippen.");
+                    Console.WriteLine("( X      ) om te stoppen.\n");
                     Console.WriteLine($"{CurrentTime}/{CurrentlyPlaying.Length}\n");
                 }
                 else
@@ -138,6 +146,7 @@ namespace oop4.classes
             {
                 HuidigeCollectie.Next();
                 CurrentlyPlaying = HuidigeCollectie.Huidig();
+                CurrentTime = 0;
 
                 Play();
             }
