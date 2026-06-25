@@ -4,17 +4,17 @@ using System.Text;
 
 namespace oop4.classes
 {
-   
+
     public class Client
     {
-            public IPlayable CurrentlyPlaying { get; set; }  
-            public int CurrentTime { get; set; }             
-            public bool Playing { get; set; }               
-            public bool Shuffle { get; set; }
-            public bool Repeat { get; set; }
-            public SongCollection HuidigeCollectie { get; set; }
-            public SongCollection Favorieten { get; set; }
-            public List<Playlist> Playlists { get; set; }
+        public IPlayable CurrentlyPlaying { get; set; }
+        public int CurrentTime { get; set; }
+        public bool Playing { get; set; }
+        public bool Shuffle { get; set; }
+        public bool Repeat { get; set; }
+        public SongCollection HuidigeCollectie { get; set; }
+        public SongCollection Favorieten { get; set; }
+        public List<Playlist> Playlists { get; set; }
         private SuperUser ActiveUser { get; set; }
         //private List<Album> AllAlbums { get; set; }
         //private List<Song> AllSongs { get; set; }
@@ -61,12 +61,17 @@ namespace oop4.classes
 
         public void Play()
         {
-            if (CurrentlyPlaying == null) {
+            if (CurrentlyPlaying == null)
+            {
                 Console.WriteLine("Geen nummer geselecteerd.");
                 return;
             }
 
             Playing = true;
+
+            Console.WriteLine($"Nu speelt: {CurrentlyPlaying}");
+            Console.WriteLine("( SPATIE ) om te pauzeren.");
+            Console.WriteLine("( >      ) om te skippen.");
 
             while (CurrentTime < CurrentlyPlaying.Length)
             {
@@ -84,7 +89,7 @@ namespace oop4.classes
                             Console.WriteLine("Gepauzeerd");
                     }
 
-                    if (key.KeyChar == '.')
+                    if (key.KeyChar == '.' || key.KeyChar == '>')
                     {
                         Console.WriteLine("Skip naar volgend nummer...");
                         CurrentTime = 0;
@@ -134,25 +139,28 @@ namespace oop4.classes
                 HuidigeCollectie.Next();
                 CurrentlyPlaying = HuidigeCollectie.Huidig();
 
-                Play(); // Client.Play opnieuw starten
+                Play();
             }
         }
-        //public Playlist CreatePlaylist(string title)
-        //{
-        //    Playlist playlist = new Playlist(ActiveUser, title);
-        //    ActiveUser.Add(playlist);
-        //    return playlist; // ← geeft playlist terug
-        //}
+
         public Playlist CreatePlaylist(string title)
         {
             Playlist playlist = new Playlist(null, title);
-            Playlists.Add(playlist); // ← werkt nu want Playlists is List<Playlist>
+            Playlists.Add(playlist);
             return playlist;
         }
-        public void ShowPlaylists()
+
+        public void CopySongsToPlaylist(SongCollection bron, Playlist doel)
         {
-            foreach (Playlist p in ActiveUser.ShowPlaylists())
-                Console.WriteLine(p);
+            foreach (IPlayable song in bron.ShowPlayables())
+            {
+                if (!doel.ShowPlayables().Contains(song))
+                {
+                    doel.AddSong(song);
+                }
+            }
+
+            Console.WriteLine("Liedjes gekopieerd.");
         }
     }
 }
